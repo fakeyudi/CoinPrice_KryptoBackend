@@ -107,7 +107,7 @@ func getData(symbol, price string, id int64) {
 	// print the trades
 	for trade := range dogecoin {
 		fmt.Println(trade.LastPrice)
-		if trade.LastPrice <= price {
+		if trade.LastPrice == price {
 			fmt.Println("********* Price Found for alert  **********")
 		}
 		// json, _ := json.Marshal(trade)
