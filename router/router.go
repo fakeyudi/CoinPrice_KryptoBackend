@@ -24,6 +24,8 @@ func Router() *mux.Router {
 	stdRouter.HandleFunc("/createalert", middleware.CreateAlert).Methods("POST", "OPTIONS")
 	stdRouter.HandleFunc("/getalert/{id}", middleware.GetAlert).Methods("GET", "OPTIONS")
 	stdRouter.HandleFunc("/getuseralerts/{id}", middleware.GetAllUserAlerts).Methods("GET", "OPTIONS")
+	stdRouter.HandleFunc("/deletealer/{id}", middleware.DeleteAlert).Methods("DELETE", "OPTIONS")
+	stdRouter.HandleFunc("/updatealert/{id}", middleware.UpdateAlert).Methods("PUT","OPTIONS")
 
 	return router
 }

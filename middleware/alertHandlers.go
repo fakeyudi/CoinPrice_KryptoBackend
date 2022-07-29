@@ -1,23 +1,21 @@
 package middleware
 
 import (
-	
 	"database/sql"
 	"encoding/json" // package to encode and decode the json into struct and vice versa
 	"fmt"
 	"log"
 	"net/http" // used to access the request and response object of the api
+	//"time"
 
-	"strconv"  // package used to covert string into int type
-	
+	"strconv" // package used to covert string into int type
 
+	"CoinPrice_KryptoBackendTask/cache"
 	"CoinPrice_KryptoBackendTask/models" // models package where User schema is defined
-
-
 
 	"github.com/gorilla/mux" // used to get the params from the route
 
-	_ "github.com/lib/pq"         // postgres golang driver
+	_ "github.com/lib/pq" // postgres golang driver
 )
 
 // CreateAlert create a alert in the postgres db
@@ -205,6 +203,19 @@ func insertAlert(alert models.Alert) int64 {
 
 	fmt.Printf("Inserted a single record %v", id)
 
+	var currentAlerts []models.Alert
+	
+	currentAlerts, err = getAllAlerts(alert.UserID)
+
+	var alerts []byte
+	alerts, err = json.Marshal(currentAlerts)
+	if(err != nil){
+		fmt.Println("Unable to create cache. %v", err)
+		return id
+	}
+
+	cache.SetValue(string(alert.UserID),string(alerts),0)
+
 	// return the inserted id
 	return id
 }
@@ -238,6 +249,8 @@ func getAlert(id int64) (models.Alert, error) {
 	default:
 		log.Fatalf("Unable to scan the row. %v", err)
 	}
+	
+	
 
 	// return empty user on error
 	return alert, err
@@ -253,6 +266,14 @@ func getAllAlerts(id int64) ([]models.Alert, error) {
 
 	// create a user of models.User type
 	var alerts []models.Alert
+
+	// var  a string
+
+	// a, err := cache.GetValue(string(id))
+
+	// if(a!=""){
+	// 	alerts, err  = json.NewDecoder([]byte(a)).Decode(&alerts)
+	// }
 
 	// create the select sql query
 	sqlStatement := `SELECT * FROM alerts`
