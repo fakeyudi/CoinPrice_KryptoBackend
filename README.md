@@ -1,4 +1,4 @@
-# CoinPrice_KryptoBackendTask
+# CoinPrice_KryptoBackend
 Crypto coin tracking api
 
 ## Postman Collection
