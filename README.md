@@ -1,5 +1,5 @@
 # CoinPrice_KryptoBackendTask
-Backend Task Given for Krypto recruitments
+Crypto coin tracking api
 
 ## Postman Collection
 https://www.getpostman.com/collections/30076d88b1fa5176b5f9
